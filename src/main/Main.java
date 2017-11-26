@@ -32,12 +32,12 @@ public class Main extends Application{
 	    MainMenu mMenu= new MainMenu(primaryStage);
 	    GameOver gOver = new GameOver();
     	GameLoop gLoop= new GameLoop(1280,720);
-        Image blob = new Image( "Blob.png" );
-    	Player p = new Player(0,720-blob.getHeight(),blob);
-    	Image redBlob = new Image("RedBlob.png");
-    	TurnAround t = new TurnAround(600, 720-redBlob.getHeight(),redBlob);
-    	Image blueBlob = new Image("BlueBlob.png");
-    	DeadlyStill d = new DeadlyStill(800, 720-blueBlob.getHeight(), blueBlob);
+        Image hero = new Image( "StickMan.png" );
+    	Player p = new Player(0,720-hero.getHeight(),hero);
+    	Image star = new Image("Starman.png");
+    	TurnAround t = new TurnAround(600, 720-star.getHeight(),star);
+    	Image square = new Image("Square.png");
+    	DeadlyStill d = new DeadlyStill(800, 720-square.getHeight(), square);
     	PlayerActions actionPlayer = new PlayerActions();
     	CollisionDetection detector = new CollisionDetection();
     	detector.addEntity(p);
@@ -55,6 +55,7 @@ public class Main extends Application{
                     }
                 });
     	s.setOnKeyReleased(
+    			
                 new EventHandler<KeyEvent>()
                 {
                     public void handle(KeyEvent e)
@@ -69,7 +70,7 @@ public class Main extends Application{
                     public void handle(KeyEvent e)
                     {
                     	mMenu.setInactive();
-                        gLoop.init(primaryStage, g, s);
+                        gLoop.init(primaryStage, g, s, p);
                     }
                 });
     	new AnimationTimer()

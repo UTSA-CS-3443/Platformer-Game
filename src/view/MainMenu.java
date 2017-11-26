@@ -1,24 +1,35 @@
 //We Love Doggos Team
 package view;
 
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainMenu {
 		private Boolean active;
 		private Scene s;
+		private Canvas c;
+		private GraphicsContext gc;
+		private Image image;
 		
 		public MainMenu(Stage stage)
 		{
 			active=true;
-			Label label1= new Label("Press any button to continue."); 
-			VBox layout1 = new VBox(20);     
-			layout1.getChildren().addAll(label1);
-			s= new Scene(layout1, 1280, 720);
+			Group g = new Group();
+			s = new Scene(g);
+			c = new Canvas( 1280, 720 );
+	        g.getChildren().add(c);
+	        gc = c.getGraphicsContext2D();
+	        stage.setScene(s);
 			stage.setTitle( "Main Menu" );
 	        stage.setScene(s);
+	        image = new Image("MainMenu.png");
+	        gc.drawImage(image, 0, 0);
 		}
 		
 		public Boolean isActive()

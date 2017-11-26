@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 
 /**
  * This is the view for the main game
@@ -24,6 +25,7 @@ public class GameLoop
 	private GraphicsContext gc;
 	private Canvas c;
 	private boolean active;
+	private Label lives;
 	
 	public GameLoop(double x, double y)
 	{
@@ -32,12 +34,13 @@ public class GameLoop
 		active=false;
 	}
 	
-	public void init(Stage stage, Group g, Scene s)
+	public void init(Stage stage, Group g, Scene s, Player p)
 	{
 		active=true;
 		stage.setTitle( "Platformer Game" );
         c = new Canvas( xDim, yDim );
-        g.getChildren().add(c);
+        lives = new Label("Lives: "+p.getLives());
+        g.getChildren().addAll(c,lives);
         gc = c.getGraphicsContext2D();
         stage.setScene(s);
 	}
@@ -51,6 +54,7 @@ public class GameLoop
                 	gc.drawImage( e.getImage(), e.getXCoord(), e.getYCoord());
                 	e.act();
                 }
+                lives.setText("Lives: "+((Player) entities.get(0)).getLives());
 
     }
     public Boolean isActive()
