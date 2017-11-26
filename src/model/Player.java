@@ -12,7 +12,7 @@ public class Player extends Entity {
 	public Player(double x, double y, Image i) {
 		super(x, y, i);
 		died=false;
-		lives=3;
+		lives=1;
 	}
 	public int getLives()
 	{

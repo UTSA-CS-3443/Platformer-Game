@@ -30,6 +30,7 @@ public class Main extends Application{
 	    Group g = new Group();
 	    Scene s = new Scene(g);
 	    MainMenu mMenu= new MainMenu(primaryStage);
+	    GameOver gOver = new GameOver();
     	GameLoop gLoop= new GameLoop(1280,720);
         Image blob = new Image( "Blob.png" );
     	Player p = new Player(0,720-blob.getHeight(),blob);
@@ -75,7 +76,11 @@ public class Main extends Application{
         {
             public void handle(long currentTime)
             {
-            	if(!mMenu.isActive())
+            	if(!p.isAlive()&&!gOver.isActive())
+            	{
+            		gOver.init(primaryStage);
+            	}
+            	else if(gLoop.isActive())
             	{
 	            	actionPlayer.takeAction(p);
 	                gLoop.stuff(detector.getList());
