@@ -12,4 +12,9 @@ public class DeadlyStill extends Entity{
 		super(x,y,i);
 	}
 
+	@Override
+	public void collided() {
+		//no action
+	}
+
 }

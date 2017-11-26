@@ -21,8 +21,8 @@ public class CollisionDetection {
 			{
 				if(entities.get(i).collides(entities.get(x)))
 				{
-					entities.get(i).setHitWall(true);
-					entities.get(x).setHitWall(true);
+					entities.get(i).collided();
+					entities.get(x).collided();
 				}
 			}
 		}
@@ -41,5 +41,11 @@ public class CollisionDetection {
 	public ArrayList<Entity> getList()
 	{
 		return entities;
+	}
+	
+	public void reset()
+	{
+		for(Entity e : entities)
+			e.start();
 	}
 }

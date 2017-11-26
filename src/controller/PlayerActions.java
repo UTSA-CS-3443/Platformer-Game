@@ -35,12 +35,12 @@ public class PlayerActions {
 	public void takeAction(Player p)
 	{
 		if (input.contains("UP"))
-			p.jump(-15);
+			p.jump(-20);
 		if (input.contains("RIGHT"))
-			p.move(5);
+			p.setXVel(5);
 		else if (input.contains("LEFT"))
-			p.move(-5);
+			p.setXVel(-5);
 		else
-			p.move(0);
+			p.setXVel(0);
 	}
 }

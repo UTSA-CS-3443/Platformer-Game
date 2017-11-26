@@ -8,8 +8,10 @@ import javafx.scene.image.Image;
  */
 public class Player extends Entity {
 	private int lives;
+	private Boolean died;
 	public Player(double x, double y, Image i) {
 		super(x, y, i);
+		died=false;
 		lives=3;
 	}
 	public int getLives()
@@ -19,6 +21,10 @@ public class Player extends Entity {
 	public void setLives(int l)
 	{
 		lives=l;
+	}
+	public Boolean getDeath()
+	{
+		return died;
 	}
 	public Boolean isAlive()
 	{
@@ -30,14 +36,15 @@ public class Player extends Entity {
 	public void act()
 	{
 		super.act();
-		if(getHitWall())
-		{
-			lives--;
-			setXCoord(getStartingX());
-			setYCoord(getStartingY());
-			setHitWall(false);
-			
-		}
 	}
+	public void start() {
+		super.start();
+		died=false;
+	}
+	public void collided() {
+		died=true;
+		lives--;
+	}
+	
 
 }

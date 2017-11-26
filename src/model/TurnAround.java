@@ -35,4 +35,14 @@ public class TurnAround extends Entity{
 			
 	}
 
+	@Override
+	public void collided() {
+		setHitWall(true);
+		
+	}
+	public void start() {
+		super.start();
+		movementDir=-1;
+	}
+
 }

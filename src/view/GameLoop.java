@@ -23,20 +23,23 @@ public class GameLoop
 	private double yDim;
 	private GraphicsContext gc;
 	private Canvas c;
+	private boolean active;
 	
 	public GameLoop(double x, double y)
 	{
 		xDim=x;
 		yDim=y;
+		active=false;
 	}
 	
 	public void init(Stage stage, Group g, Scene s)
 	{
+		active=true;
 		stage.setTitle( "Platformer Game" );
-        stage.setScene(s);
         c = new Canvas( xDim, yDim );
         g.getChildren().add(c);
         gc = c.getGraphicsContext2D();
+        stage.setScene(s);
 	}
 
     public void stuff(ArrayList<Entity> entities) 
@@ -49,5 +52,15 @@ public class GameLoop
                 	e.act();
                 }
 
+    }
+    public Boolean isActive()
+    {
+    	return active;
+    }
+    public void setInactive()
+    {
+    	active=false;
+		c=null;
+		gc=null;
     }
 }

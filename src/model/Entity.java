@@ -23,13 +23,8 @@ public abstract class Entity {
 	{
 		startingX=x;
 		startingY=y;
-		xCoordinate=x;
-		yCoordinate=y;
+		start();
 		image=i;
-		xVel=0;
-		yVel=0;
-		inAir=false;
-		hitWall=false;
 	}
 	public double getXCoord()
 	{
@@ -108,6 +103,25 @@ public abstract class Entity {
 	//Every game loop an entity must perform its designated action, by default just provides gravity and boundary checking
 	public void act()
 	{
+		wallCheck();
+		moveY();
+		gravity();
+		
+	}
+	public void jump(double y) {
+		if(!inAir)
+		{
+			yVel=y;
+			inAir=true;
+		}
+	}
+	public void moveX() {
+		xCoordinate=(xCoordinate+xVel);
+	}
+	public void moveY() {
+		yCoordinate=(yCoordinate+yVel);
+	}
+	public void wallCheck() {
 		if(xCoordinate<0)
 		{
 			xVel=0;
@@ -122,20 +136,27 @@ public abstract class Entity {
 		}
 		else if(!hitWall)
 		{
-			xCoordinate=(xCoordinate+xVel);
+			moveX();
 		}
 		else
 		{
 			xCoordinate=(xCoordinate-xVel);
 			xVel=0;
 		}
+	}
+	public void gravity()
+	{
 		//as long as they are above the ground, keep decelerating
 		if(yCoordinate<(720-image.getHeight()))
 		{
-			yCoordinate=(yCoordinate+yVel);
 			yVel=(yVel+1);
-			//make sure acceleration is true to prevent midair jumps
-			inAir=true;
+		}
+		//they are below the ground fix it
+		else if(yCoordinate>720-image.getHeight())
+		{
+			yCoordinate=startingY;
+			yVel=0;
+			inAir=false;
 		}
 		//they have hit the ground stop acceleration
 		else
@@ -143,17 +164,16 @@ public abstract class Entity {
 			yVel=0;
 			inAir=false;
 		}
-		
 	}
-	public void jump(double y) {
-		if(!inAir)
-		{
-			yVel=y;
-			inAir=true;
-		}
+	public void start()
+	{
+		xCoordinate=startingX;
+		yCoordinate=startingY;
+		xVel=0;
+		yVel=0;
+		inAir=false;
+		hitWall=false;
 	}
-	public void move(double x) {
-		xVel=x;
-	}
+	public abstract void collided();
 
 }

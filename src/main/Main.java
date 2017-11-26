@@ -27,11 +27,10 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Group g = new Group();
-	    Scene s = new Scene( g );
-	    primaryStage.setScene( s );
+	    Group g = new Group();
+	    Scene s = new Scene(g);
+	    MainMenu mMenu= new MainMenu(primaryStage);
     	GameLoop gLoop= new GameLoop(1280,720);
-    	gLoop.init(primaryStage, g, s);
         Image blob = new Image( "Blob.png" );
     	Player p = new Player(0,720-blob.getHeight(),blob);
     	Image redBlob = new Image("RedBlob.png");
@@ -63,13 +62,29 @@ public class Main extends Application{
                         actionPlayer.removeInput( in );
                     }
                 });
+    	mMenu.getScene().setOnKeyPressed(
+                new EventHandler<KeyEvent>()
+                {
+                    public void handle(KeyEvent e)
+                    {
+                    	mMenu.setInactive();
+                        gLoop.init(primaryStage, g, s);
+                    }
+                });
     	new AnimationTimer()
         {
             public void handle(long currentTime)
             {
-            	actionPlayer.takeAction(p);
-                gLoop.stuff(detector.getList());
-                detector.CollisionCheck();
+            	if(!mMenu.isActive())
+            	{
+	            	actionPlayer.takeAction(p);
+	                gLoop.stuff(detector.getList());
+	                detector.CollisionCheck();
+	                if(p.getDeath())
+	                {
+	                	detector.reset();
+	                }
+            	}
                 
             }
         }
