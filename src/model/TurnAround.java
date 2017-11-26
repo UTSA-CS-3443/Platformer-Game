@@ -23,9 +23,15 @@ public class TurnAround extends Entity{
 			setXVel(5);
 		super.act();
 		if(getHitWall()&&movementDir==-1)
+		{
 			movementDir=1;
+			setHitWall(false);
+		}
 		else if(getHitWall()&&movementDir==1)
+		{
 			movementDir=-1;
+			setHitWall(false);
+		}
 			
 	}
 

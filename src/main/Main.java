@@ -3,8 +3,6 @@
 package main;
 import model.*;
 
-import java.util.ArrayList;
-
 import controller.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -50,10 +48,10 @@ public class Main extends Application{
                 {
                     public void handle(KeyEvent e)
                     {
-                        String code = e.getCode().toString();
+                        String in = e.getCode().toString();
                         // makes sure there are no duplicate inputs
-                        if ( !actionPlayer.getInput().contains(code) )
-                            actionPlayer.addInput( code );
+                        if ( !actionPlayer.getInput().contains(in) )
+                            actionPlayer.addInput( in );
                     }
                 });
     	s.setOnKeyReleased(
@@ -61,8 +59,8 @@ public class Main extends Application{
                 {
                     public void handle(KeyEvent e)
                     {
-                        String code = e.getCode().toString();
-                        actionPlayer.removeInput( code );
+                        String in = e.getCode().toString();
+                        actionPlayer.removeInput( in );
                     }
                 });
     	new AnimationTimer()
@@ -71,6 +69,8 @@ public class Main extends Application{
             {
             	actionPlayer.takeAction(p);
                 gLoop.stuff(detector.getList());
+                detector.CollisionCheck();
+                
             }
         }
         .start();

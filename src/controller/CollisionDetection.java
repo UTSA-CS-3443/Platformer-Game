@@ -15,7 +15,17 @@ public class CollisionDetection {
 	
 	public void CollisionCheck()
 	{
-		
+		for(int i=0; i<entities.size();i++)
+		{
+			for(int x=i+1; x<entities.size(); x++)
+			{
+				if(entities.get(i).collides(entities.get(x)))
+				{
+					entities.get(i).setHitWall(true);
+					entities.get(x).setHitWall(true);
+				}
+			}
+		}
 	}
 	
 	public void addEntity(Entity e)

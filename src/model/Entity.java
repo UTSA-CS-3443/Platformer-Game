@@ -1,5 +1,6 @@
 //We Love Doggos Team
 package model;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 /**
  * This class provides the baseline for every entity in the game
@@ -8,6 +9,8 @@ import javafx.scene.image.Image;
  * @author Chase Booher
  */
 public abstract class Entity {
+	private double startingX;
+	private double startingY;
 	private double xCoordinate;
 	private double yCoordinate;
 	private double xVel;
@@ -18,12 +21,15 @@ public abstract class Entity {
 	
 	public Entity(double x, double y, Image i)
 	{
+		startingX=x;
+		startingY=y;
 		xCoordinate=x;
 		yCoordinate=y;
 		image=i;
 		xVel=0;
 		yVel=0;
 		inAir=false;
+		hitWall=false;
 	}
 	public double getXCoord()
 	{
@@ -32,6 +38,14 @@ public abstract class Entity {
 	public double getYCoord()
 	{
 		return yCoordinate;
+	}
+	public double getStartingX()
+	{
+		return startingX;
+	}
+	public double getStartingY()
+	{
+		return startingY;
 	}
 	public double getXVel()
 	{
@@ -77,14 +91,23 @@ public abstract class Entity {
 	{
 		inAir=a;
 	}
-	public void setWallHit(Boolean w)
+	public void setHitWall(Boolean w)
 	{
 		hitWall=w;
 	}
+	//creates a rectangle boundary that will be used for collision checking
+	public Rectangle2D getBoundary()
+    {
+        return new Rectangle2D(xCoordinate,yCoordinate,image.getWidth(),image.getHeight());
+    }
+	//checks whether an entity has collided with another entity
+    public boolean collides(Entity e)
+    {
+        return e.getBoundary().intersects(getBoundary());
+    }
 	//Every game loop an entity must perform its designated action, by default just provides gravity and boundary checking
 	public void act()
 	{
-		xCoordinate=(xCoordinate+xVel);
 		if(xCoordinate<0)
 		{
 			xVel=0;
@@ -97,14 +120,19 @@ public abstract class Entity {
 			xCoordinate=(1280-image.getWidth());
 			hitWall=true;
 		}
+		else if(!hitWall)
+		{
+			xCoordinate=(xCoordinate+xVel);
+		}
 		else
 		{
-			hitWall=false;
+			xCoordinate=(xCoordinate-xVel);
+			xVel=0;
 		}
-		yCoordinate=(yCoordinate+yVel);
 		//as long as they are above the ground, keep decelerating
 		if(yCoordinate<(720-image.getHeight()))
 		{
+			yCoordinate=(yCoordinate+yVel);
 			yVel=(yVel+1);
 			//make sure acceleration is true to prevent midair jumps
 			inAir=true;
